@@ -51,7 +51,9 @@ function Cube(props) {
   //const [ref] = useBox(() => ({ mass: 1, position: [0, 5, 0], rotation: [0.4, 0.2, 0.5], ...props }))
   const [ref] = useBox(() => ({ mass: 1, position: props.position, rotation: props.rotation}))
   return (
-    <mesh receiveShadow castShadow ref={ref} scale={props.scale} >
+    <mesh 
+	  onClick={props.onClick}
+	  receiveShadow castShadow ref={ref} scale={props.scale} >
       <boxGeometry />
     <meshLambertMaterial color={props.color} /> </mesh>)
 }
@@ -82,6 +84,7 @@ function MyBox(props) {
 export default function App() {
   const [cameraposition, setCameraposition] = useState([-5, 5, 15]);
   return (<>
+
 	  <h1>CANNON TEST</h1>
 
   <Canvas shadows dpr={[1, 2]} gl={{ alpha: false }} camera={{ position: cameraposition, fov: 45 }}>
@@ -92,13 +95,21 @@ export default function App() {
     <Physics>
       <Plane position={[0, 0, 0]} />
 
-      <Cube position={[0, 0.5, 0]} rotation={[0, 1.2, 0]} color={"grey"} scale={1} />
-      <Cube position={[0.9, 0.5, 0.3]} rotation={[0, 1.2, 0]} color={"lightgrey"} scale={1} />
-      <Cube position={[1.9, 0.5, 0.6]} rotation={[0, 1.2, 0]} color={"grey"} scale={1} />
-      <Cube position={[0.3, 0.5, -0.9]} rotation={[0, 1.2, 0]} color={"grey"} scale={1} />
+      <Cube 
+	  onClick={()=>alert("test")}
+	  position={[10, 0.5, 0]} rotation={[0, 1.2, 0]} color={"pink"} scale={1} />
 
+      <Cube position={[1.9, 10, 0.3]} rotation={[0, 0, 0]} color={"lightgrey"} scale={1} />
+      <Cube position={[1.9, 5, 0.6]} rotation={[0, 0, 0]} color={"grey"} scale={1} />
+      <Cube position={[0.3, 4, -0.9]} rotation={[0, 0, 0]} color={"grey"} scale={1} />
 	  {/*
-		  <Cloud position={[4, 2, 0]} speed={0.2} opacity={0.75} />
+      <Cube position={[0.9, 10, 0.3]} rotation={[0, 1.2, 0]} color={"lightgrey"} scale={1} />
+      <Cube position={[1.9, 5, 0.6]} rotation={[0, 1.2, 0]} color={"grey"} scale={1} />
+      <Cube position={[0.3, 4, -0.9]} rotation={[0, 1.2, 0]} color={"grey"} scale={1} />
+	  */}
+
+		  <Cloud position={[4, 2, 0]} speed={0.2} opacity={0.1} />
+	  {/*
       <Sky azimuth={0.1} turbidity={10} rayleigh={0.5} inclination={0.6} distance={1000} />
 		  */}
 
