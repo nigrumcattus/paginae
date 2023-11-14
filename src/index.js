@@ -1,4 +1,5 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
+import './styles.css'
+import App from './cannon-test'
 
-ReactDOM.render(<h1>Paginae</h1>,document.getElementById('root'))
+createRoot(document.getElementById('root')).render(<App />)
