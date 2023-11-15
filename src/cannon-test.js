@@ -1,9 +1,24 @@
 import ReactDOM from 'react-dom'
-import { useRef, useState ,useMemo} from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { useRef, useState ,useMemo ,Suspense} from 'react'
+import { Canvas, useFrame ,useLoader } from '@react-three/fiber'
 import { Physics, usePlane, useBox ,useParticle} from '@react-three/cannon'
 import { Cloud, Sky ,OrbitControls } from '@react-three/drei'
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import './cannon-styles.css'
+
+const GltfModel = () => {
+  const [ref] = useBox(() => ({ mass: 1, position: [0, 2, 0], rotation: [1, 0, 1]}))
+  const gltf = useLoader(GLTFLoader, "./test2.gltf");
+  return (
+    <>
+    <mesh
+      ref={ref}
+	  >
+      <primitive object={gltf.scene} scale={2} />
+    </mesh>
+    </>
+  );
+};
 
 const BasicParticles = () => {
   // This reference gives us direct access to our points
@@ -83,10 +98,43 @@ function MyBox(props) {
 
 export default function App() {
   const [cameraposition, setCameraposition] = useState([-5, 5, 15]);
+
+	/*
+	<Suspense fallback={null}>
+		<GltfModel />
+	</Suspense>
+	*/
   return (<>
 
 	  <h1>CANNON TEST</h1>
 
+      <Canvas>
+
+    <color attach="background" args={['lightgrey']} />
+    <ambientLight />
+    <OrbitControls />
+    <directionalLight position={[10, 10, 10]} castShadow shadow-mapSize={[2048, 2048]} />
+    <Physics>
+      <Plane position={[0, 0, 0]} />
+
+      <Cube 
+	  onClick={()=>alert("test")}
+	  position={[10, 0.5, 0]} rotation={[0, 1.2, 0]} color={"pink"} scale={1} />
+
+        <Suspense fallback={null}>
+          <GltfModel />
+
+      <Cube position={[1.9, 10, 0.3]} rotation={[0, 0, 0]} color={"lightgrey"} scale={1} />
+      <Cube position={[1.9, 5, 0.6]} rotation={[0, 0, 0]} color={"grey"} scale={1} />
+      <Cube position={[0.3, 4, -0.9]} rotation={[0, 0, 0]} color={"grey"} scale={1} />
+
+        </Suspense>
+
+	  <Cloud position={[4, 2, 0]} speed={0.2} opacity={0.1} />
+    </Physics>
+      </Canvas>
+
+	  {/*
   <Canvas shadows dpr={[1, 2]} gl={{ alpha: false }} camera={{ position: cameraposition, fov: 45 }}>
     <color attach="background" args={['lightgrey']} />
     <ambientLight />
@@ -102,35 +150,12 @@ export default function App() {
       <Cube position={[1.9, 10, 0.3]} rotation={[0, 0, 0]} color={"lightgrey"} scale={1} />
       <Cube position={[1.9, 5, 0.6]} rotation={[0, 0, 0]} color={"grey"} scale={1} />
       <Cube position={[0.3, 4, -0.9]} rotation={[0, 0, 0]} color={"grey"} scale={1} />
-	  {/*
-      <Cube position={[0.9, 10, 0.3]} rotation={[0, 1.2, 0]} color={"lightgrey"} scale={1} />
-      <Cube position={[1.9, 5, 0.6]} rotation={[0, 1.2, 0]} color={"grey"} scale={1} />
-      <Cube position={[0.3, 4, -0.9]} rotation={[0, 1.2, 0]} color={"grey"} scale={1} />
-	  */}
 
-		  <Cloud position={[4, 2, 0]} speed={0.2} opacity={0.1} />
-	  {/*
-      <Sky azimuth={0.1} turbidity={10} rayleigh={0.5} inclination={0.6} distance={1000} />
-		  */}
-
+	  <Cloud position={[4, 2, 0]} speed={0.2} opacity={0.1} />
     </Physics>
-  </Canvas>,
+  </Canvas>
+  */}
 
-	  {/*Particleのテスト
-	 <Canvas camera={{ position: [1.5, 1.5, 1.5] }}>
-      <ambientLight intensity={0.5} />
-      <BasicParticles />
-      <OrbitControls autoRotate />
-     </Canvas>
-			  */}
-
-	  {/*
-      <Canvas>
-        <TestMyBox />
-        <ambientLight intensity={0.5} />
-        <directionalLight />
-      </Canvas>
-	  */}
 
   </>)
 }
