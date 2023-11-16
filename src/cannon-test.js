@@ -7,14 +7,14 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import './cannon-styles.css'
 
 const GltfModel = () => {
-  const [ref] = useBox(() => ({ mass: 1, position: [0, 2, 0], rotation: [1, 0, 1]}))
-  const gltf = useLoader(GLTFLoader, "./test2.gltf");
+  const [ref] = useBox(() => ({ mass: 1, position: [0, 2, 0], rotation: [0, 1, 0]}))
+  const gltf = useLoader(GLTFLoader, "./untitled.glb");
   return (
     <>
     <mesh
       ref={ref}
 	  >
-      <primitive object={gltf.scene} scale={2} />
+      <primitive object={gltf.scene} scale={0.5} />
     </mesh>
     </>
   );
