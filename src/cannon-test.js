@@ -6,9 +6,22 @@ import { Cloud, Sky ,OrbitControls } from '@react-three/drei'
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import './cannon-styles.css'
 
-const GltfModel = () => {
-  const [ref] = useBox(() => ({ mass: 1, position: [0, 2, 0], rotation: [0, 1, 0]}))
+const GltfModel = (props) => {
+  const [ref] = useBox(() => ({ mass:1, position: props.position, rotation: [0, 1, 0]}))
   const gltf = useLoader(GLTFLoader, "./untitled.glb");
+  return (
+    <>
+    <mesh
+      ref={ref}
+	  >
+      <primitive object={gltf.scene} scale={0.5} />
+    </mesh>
+    </>
+  );
+};
+const GltfModel2 = (props) => {
+  const [ref] = useBox(() => ({ mass:1, position: props.position, rotation: [0, 1, 0]}))
+  const gltf = useLoader(GLTFLoader, "./untitled2.glb");
   return (
     <>
     <mesh
@@ -122,7 +135,9 @@ export default function App() {
 	  position={[10, 0.5, 0]} rotation={[0, 1.2, 0]} color={"pink"} scale={1} />
 
         <Suspense fallback={null}>
-          <GltfModel />
+          <GltfModel position={[0,2,0]} />
+          <GltfModel2 position={[0,5,1]} />
+
 
       <Cube position={[1.9, 10, 0.3]} rotation={[0, 0, 0]} color={"lightgrey"} scale={1} />
       <Cube position={[1.9, 5, 0.6]} rotation={[0, 0, 0]} color={"grey"} scale={1} />
